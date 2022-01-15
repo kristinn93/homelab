@@ -21,3 +21,9 @@ To upgrade flux either run
 
 
 
+Setup local disks, this was helpful: https://lapee79.github.io/en/article/use-a-local-disk-by-local-volume-static-provisioner-in-kubernetes/
+View ./storage to see the setup
+
+
+To test this setup portainer since we need persisting volume for that 
+This is the install guide from portainer: https://docs.portainer.io/v/ce-2.9/start/install/server/kubernetes/baremetal

@@ -1,17 +1,16 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: disk2
-  namespace: default
+  name: disk3
 spec:
   capacity:
     storage: 1830G
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: disk2
+  storageClassName: local-storage
   local:
-    path: /disk2
+    path: /disk3
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -19,4 +18,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - k8s-worker-01
+          - server

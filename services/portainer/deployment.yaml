@@ -7,11 +7,11 @@ metadata:
     io.portainer.kubernetes.application.stack: portainer
     app.kubernetes.io/name: portainer
     app.kubernetes.io/instance: portainer
-    app.kubernetes.io/version: "ce-latest-ee-2.10.0"
+    app.kubernetes.io/version: ce-latest-ee-2.10.0
 spec:
   replicas: 1
   strategy:
-    type: "Recreate"
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: portainer
@@ -26,12 +26,12 @@ spec:
         {}
       serviceAccountName: portainer-sa-clusteradmin
       volumes:
-        - name: "data"
+        - name: data
           persistentVolumeClaim:
-            claimName: disk1
+            claimName: portainer-pvc
       containers:
         - name: portainer
-          image: "portainer/portainer-ce:latest"
+          image: portainer/portainer-ce:latest
           imagePullPolicy: Always
           args:
           - '--tunnel-port=30776'          
