@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: disk3
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: disk3
+  resources:
+    requests:
+      storage: 1830G
