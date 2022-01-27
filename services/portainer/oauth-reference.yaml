@@ -1,0 +1,8 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: oauth2-proxy
+  namespace: portainer
+spec:
+  type: ExternalName
+  externalName: oauth2-proxy.default.svc.cluster.local

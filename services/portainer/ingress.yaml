@@ -1,27 +1,49 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: portainer
+  name: oauth2-proxy
   namespace: portainer
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    # allows http without forcing redirect to ssl
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-
 spec:
-  tls:
-  - hosts: [ 'localhost' ]
-    # secret must be in same namespace
-    secretName: tls-credential
+  ingressClassName: nginx
   rules:
-
-  - host: localhost
+  - host: portainer.kristinn.pro
     http:
       paths:
-      - pathType: Prefix #Exact
-        path: "/"
+      - path: /oauth2
+        pathType: Prefix
+        backend:
+          service:
+            name: oauth2-proxy
+            port:
+              number: 4180
+  tls:
+  - hosts:
+    - portainer.kristinn.pro
+    secretName: cloudflare-tls
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start?rd=$http_host$request_uri
+  name: external-auth-oauth2
+  namespace: portainer
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: portainer.kristinn.pro
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: portainer
             port:
               number: 9000
+  tls:
+  - hosts:
+    - portainer.kristinn.pro
+    secretName: cloudflare-tls

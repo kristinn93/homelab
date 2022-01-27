@@ -39,9 +39,29 @@ first get the external ip og the ingress controller
 since I setup localhost in the portainer ingress config we need to verify that it works like this
 curl -H "Host: localhost" --insecure https://192.168.1.81/
 
+Setting up a domain, create A name records that point to your external ip, expose ingress controller port to 443
+Create cert as a secret and reference the correct name (secrets are not shared across namespaces)
+
+
+next figure out how to setup authentication for nginx-ingress
+
+~~setup keycloak, expose with ingress (data does not persist until postgres is setup)
+setup postgres so we can store data in keycloak~~~
+
+after spending too much time on keycloack and it behaving strangely, randomly not showing newly created clients in the admin UI, I decided to just go with google and create a new project and use that as authentication
+
+Look at ingress in portainer server, after nothing working I found out that the ingress instance that handles oauth in the portainer namespace was unable to call oauth-proxy in the default namespace, hence the file oauth-reference in portainer namespace. (found that out after looking throught the logs of the ingress controller in the ingress-nginx namespace)
+
+So we are running two instances of ingress in the portainer namespace:
+* First one that's bound to the /oauth2 subpath that communicates with the oauth service throught the oauth service reference in default namespace. 
+
+* Second one is bound to the root of the hostname (portainer.kristinn.pro) and with annotation to check if the user is authenticated through the first ingress instance
+
+
+
+
+
 
 
 TODO:
 - [ ] Create new storage classes for hard disks, going to keep local-storage.yaml as disk1 and use that as persisting volume for none media related stuff
-- [ ] get a domain and setup tls certs
-- [ ] forward ingress port 443 and setup dns records
