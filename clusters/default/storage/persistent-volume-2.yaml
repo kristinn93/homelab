@@ -8,7 +8,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: media2
   local:
     path: /disk2
   nodeAffinity:
