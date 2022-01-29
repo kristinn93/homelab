@@ -59,6 +59,8 @@ So we are running two instances of ingress in the portainer namespace:
 
 
 
+After trying to setup transmission and trying to bind to disk1, relised pv and pvc have one to one relations so I was unable to use the same disk for portainer and transmission persisting data I decided to setup nfs server on the host and change all the volume bindings and directly bind to nfs volumes and skip the pv and pvc setup I managed to run both portainer and transmission. 
+
 
 
 

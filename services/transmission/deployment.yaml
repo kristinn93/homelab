@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: transmission
+spec:
+  selector:
+      matchLabels:
+        app: transmission
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+      - env:
+        - name: PUID
+          value: "65534"
+        - name: PGID
+          value: "65534"
+        - name: TZ
+          value: Europe/London
+        - name: TRANSMISSION_WEB_HOME
+          value: /combustion-release/
+        image: linuxserver/transmission
+        name: transmission
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9091
+            scheme: HTTP
+        ports:
+        - name: http 
+          containerPort: 9091
+          protocol: TCP
+        - containerPort: 51413
+          protocol: TCP
+        - containerPort: 51413
+          protocol: UDP
+        resources: {}
+        volumeMounts:
+        - name: nfs-vol-disk2
+          mountPath: /downloads
+          subPath: ./downloads
+        - name: nfs-vol-disk1
+          mountPath: /config
+          subPath: ./transmission-config
+        - name: nfs-vol-disk1
+          mountPath: /watch
+          subPath: ./transmission-watch
+      restartPolicy: Always
+      volumes:
+      - name: nfs-vol-disk1
+        nfs:
+          server: 192.168.1.2
+          path: /disk1 
+      - name: nfs-vol-disk2
+        nfs:
+          server: 192.168.1.2
+          path: /disk2
+          
+status: {}

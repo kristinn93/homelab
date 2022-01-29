@@ -26,9 +26,10 @@ spec:
         {}
       serviceAccountName: portainer-sa-clusteradmin
       volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: portainer-pvc
+        - name: nfs-vol-disk1
+          nfs:
+            server: 192.168.1.2
+            path: /disk1
       containers:
         - name: portainer
           image: portainer/portainer-ce:latest
@@ -36,9 +37,9 @@ spec:
           args:
           - '--tunnel-port=30776'          
           volumeMounts:
-            - name: data
+            - name: nfs-vol-disk1
               mountPath: /data              
-              subPath: portainer
+              subPath: ./portainer
           ports:
             - name: http
               containerPort: 9000
