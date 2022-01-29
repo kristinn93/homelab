@@ -3,10 +3,12 @@ kind: Deployment
 metadata:
   namespace: default
   name: transmission
+  labels:
+    app: transmission
 spec:
   selector:
-      matchLabels:
-        app: transmission
+    matchLabels:
+      app: transmission
   strategy:
     type: Recreate
   template:
