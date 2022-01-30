@@ -55,6 +55,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
     nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start?rd=$http_host$request_uri
+    nginx.ingress.kubernetes.io/app-root: /web
   name: plex-external-auth-oauth2
   namespace: default
 spec:
