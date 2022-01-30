@@ -46,6 +46,18 @@ spec:
         - name: nfs-vol-disk2
           mountPath: /downloads
           subPath: ./downloads
+        - name: nfs-vol-disk2
+          mountPath: /tv
+          subPath: ./tv
+        - name: nfs-vol-disk2
+          mountPath: /movies
+          subPath: ./movies
+        - name: nfs-vol-disk3
+          mountPath: /tv2
+          subPath: ./tv
+        - name: nfs-vol-disk3
+          mountPath: /movies2
+          subPath: ./movies
         - name: nfs-vol-disk1
           mountPath: /config
           subPath: ./transmission-config
@@ -59,6 +71,10 @@ spec:
           server: 192.168.1.2
           path: /disk1 
       - name: nfs-vol-disk2
+        nfs:
+          server: 192.168.1.2
+          path: /disk2
+      - name: nfs-vol-disk3
         nfs:
           server: 192.168.1.2
           path: /disk2

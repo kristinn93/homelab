@@ -75,3 +75,4 @@ https://github.com/NVIDIA/k8s-device-plugin#preparing-your-gpu-nodes
 
 After messing around trying to enable this for containerd (usded by k3s) it's not worth the time at this moment since I'm running a pretty outaded GPU, but should be straight forward with newer hardware
 
+Setting up plex: following this guide https://www.debontonline.com/2021/01/part-14-deploy-plexserver-yaml-with.html
