@@ -29,10 +29,10 @@ spec:
         image: linuxserver/transmission
         name: transmission
         livenessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: 9091
-            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 15
         ports:
         - name: http 
           containerPort: 9091

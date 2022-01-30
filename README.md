@@ -25,6 +25,13 @@ Setup local disks, this was helpful: https://lapee79.github.io/en/article/use-a-
 View ./storage to see the setup
 
 
+
+##### Create cloudflare tls secret:
+kubectl create secret tls cloudflare-tls --key origin-ca.pk --cert origin-ca.crt -n=default (remember to create in all namespaces where it's needed)
+
+##### Create oauth secrets:
+kubectl -n=default create secret generic oauthproxy --from-literal=clientid=<some-clientid> --from-literal=clientsecret=<some-clientsecret> --from-literal=cookiesecret=cookiesecret=<generate cookie secret string>
+
 To test this setup portainer since we need persisting volume for that 
 This is the install guide from portainer: https://docs.portainer.io/v/ce-2.9/start/install/server/kubernetes/baremetal
 
@@ -62,8 +69,9 @@ So we are running two instances of ingress in the portainer namespace:
 After trying to setup transmission and trying to bind to disk1, relised pv and pvc have one to one relations so I was unable to use the same disk for portainer and transmission persisting data I decided to setup nfs server on the host and change all the volume bindings and directly bind to nfs volumes and skip the pv and pvc setup I managed to run both portainer and transmission. 
 
 
+Before setting up plex I want to be able to use GPU to transcode videos, is it possible to use gpu withing docker (or kubernetes ? 🤔)
+after short googling it seem's like this is a thing
+https://github.com/NVIDIA/k8s-device-plugin#preparing-your-gpu-nodes 
 
+After messing around trying to enable this for containerd (usded by k3s) it's not worth the time at this moment since I'm running a pretty outaded GPU, but should be straight forward with newer hardware
 
-
-TODO:
-- [ ] Create new storage classes for hard disks, going to keep local-storage.yaml as disk1 and use that as persisting volume for none media related stuff
