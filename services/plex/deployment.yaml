@@ -35,7 +35,7 @@ spec:
         - name: VERSION
           value: latest
         - name: TZ
-          value: Europe/London  # < Timezone
+          value: Atlantic/Reykjavik 
         image: ghcr.io/linuxserver/plex   # < the name of the docker image we will use
         imagePullPolicy: Always    # < always use the latest image when creating container/pod
         name: plexserver           # < name of container
@@ -74,7 +74,7 @@ spec:
         stdin: true
         tty: true
         volumeMounts:            # < the volume mount in the container. Look at the relation volumelabel->pvc->pv
-        - name: nfs-vol-disk1  # < volumelabel configured earlier in the yaml file
+        - name: host-disk1  # < volumelabel configured earlier in the yaml file
           mountPath: /config     # < mount location in the container
           subPath: plex
         - name: nfs-vol-disk2
@@ -83,9 +83,8 @@ spec:
           mountPath: /disk3
       restartPolicy: Always
       volumes:
-        - name: nfs-vol-disk1
-          nfs:
-            server: 192.168.1.2
+        - name: host-disk1
+          hostPath:
             path: /disk1
         - name: nfs-vol-disk2
           nfs:
