@@ -76,3 +76,11 @@ https://github.com/NVIDIA/k8s-device-plugin#preparing-your-gpu-nodes
 After messing around trying to enable this for containerd (usded by k3s) it's not worth the time at this moment since I'm running a pretty outaded GPU, but should be straight forward with newer hardware
 
 Setting up plex: following this guide https://www.debontonline.com/2021/01/part-14-deploy-plexserver-yaml-with.html
+
+
+Plex seemd unresponsive and sometimes work intermitedly, read this: 
+https://www.reddit.com/r/PleX/comments/ezbmy0/running_plex_in_kubernetes_finally_working/ 
+and decided to test hostpath just to be able to use this, seems like it's working alot better after setting that and port forwarding, but not sure if it's streaming over lan, existing network setup and firewalls might be affecting this as well. 
+
+Sickchill setup seems nice, looked at this template to create manifests https://github.com/aruhier/ansible-role-kubernetes-sickchill
+
