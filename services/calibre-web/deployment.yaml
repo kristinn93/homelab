@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web
+  namespace: default
+  labels:
+    app: calibre-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calibre-web
+  template:
+    metadata:
+      labels:
+        app: calibre-web
+    spec:
+      containers:
+      - image: linuxserver/calibre-web:latest
+        imagePullPolicy: Always
+        name: calibre-web
+        resources: {}
+        env: 
+        - name: PGID
+          value: "65534"
+        - name: PUID
+          value: "65534"
+        - name: TZ
+          value: Atlantic/Reykjavik
+        ports:
+        - name: calibre-8083
+          containerPort: 8083
+          hostPort: 8083
+        livenessProbe:
+          httpGet:
+            path: /
+            port: calibre-web
+          initialDelaySeconds: 60
+          periodSeconds: 20
+        volumeMounts:
+        - name: host-disk1
+          mountPath: /config
+          subPath: calibre-web 
+        - mountPath: /books
+          name: nfs-vol-disk3
+          subPath: books
+      volumes:
+        - name: host-disk1
+          hostPath:
+            path: /disk1
+        - name: nfs-vol-disk3
+          nfs:
+            server: 192.168.1.2
+            path: /disk3
+      restartPolicy: Always
+status: {}
