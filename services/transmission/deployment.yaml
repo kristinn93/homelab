@@ -64,6 +64,9 @@ spec:
         - name: nfs-vol-disk1
           mountPath: /watch
           subPath: ./transmission-watch
+        - name: nfs-vol-disk3
+          mountPath: /books
+          subPath: ./books
       restartPolicy: Always
       volumes:
       - name: nfs-vol-disk1
