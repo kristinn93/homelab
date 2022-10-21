@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: default
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+        - image: lscr.io/linuxserver/sonarr:latest
+          imagePullPolicy: Always
+          name: sickchill
+          resources: {}
+          env:
+            - name: PGID
+              value: "65534"
+            - name: PUID
+              value: "65534"
+            - name: TZ
+              value: "Iceland"
+          ports:
+            - name: sonarr
+              containerPort: 8989
+          livenessProbe:
+            httpGet:
+              path: /
+              port: sonarr
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          volumeMounts:
+            - name: host-disk1
+              mountPath: /config
+              subPath: sonarr
+            - mountPath: /downloads/disk2
+              name: nfs-vol-disk2
+              subPath: downloads
+            - mountPath: /downloads/disk3
+              name: nfs-vol-disk3
+              subPath: downloads
+            - mountPath: /tv/disk2
+              name: nfs-vol-disk2
+              subPath: tv
+            - mountPath: /tv/disk3
+              name: nfs-vol-disk3
+              subPath: tv
+      volumes:
+        - name: host-disk1
+          hostPath:
+            path: /disk1
+        - name: nfs-vol-disk2
+          nfs:
+            server: 192.168.1.2
+            path: /disk2
+        - name: nfs-vol-disk3
+          nfs:
+            server: 192.168.1.2
+            path: /disk3
+      restartPolicy: Always
+status: {}

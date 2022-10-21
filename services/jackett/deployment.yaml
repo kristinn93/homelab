@@ -27,6 +27,8 @@ spec:
               value: "65534"
             - name: TZ
               value: "Iceland"
+            - name: AUTO_UPDATE
+              value: "false"
           ports:
             - name: jackett
               containerPort: 9117
