@@ -29,6 +29,8 @@ spec:
               value: "Iceland"
             - name: AUTO_UPDATE
               value: "false"
+            - name: RUN_OPTS
+              value: "-n true --NoRestart"
           ports:
             - name: jackett
               containerPort: 9117
@@ -36,8 +38,9 @@ spec:
             httpGet:
               path: /
               port: jackett
-            initialDelaySeconds: 60
-            periodSeconds: 20
+            initialDelaySeconds: 150
+            periodSeconds: 30
+            timeoutSeconds: 30
           volumeMounts:
             - name: host-disk1
               mountPath: /config
