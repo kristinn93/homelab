@@ -17,69 +17,70 @@ spec:
         app: transmission
     spec:
       containers:
-      - env:
-        - name: PUID
-          value: "65534"
-        - name: PGID
-          value: "65534"
-        - name: TZ
-          value: Atlantic/Reykjavik 
-        - name: TRANSMISSION_WEB_HOME
-          value: /combustion-release/
-        image: linuxserver/transmission
-        name: transmission
-        livenessProbe:
-          tcpSocket:
-            port: 9091
-          initialDelaySeconds: 30
-          periodSeconds: 15
-        ports:
-        - name: http 
-          containerPort: 9091
-          protocol: TCP
-        - containerPort: 51413
-          protocol: TCP
-        - containerPort: 51413
-          protocol: UDP
-        resources: {}
-        volumeMounts:
-        - name: nfs-vol-disk2
-          mountPath: /downloads
-          subPath: ./downloads
-        - name: nfs-vol-disk2
-          mountPath: /tv
-          subPath: ./tv
-        - name: nfs-vol-disk2
-          mountPath: /movies
-          subPath: ./movies
-        - name: nfs-vol-disk3
-          mountPath: /tv2
-          subPath: ./tv
-        - name: nfs-vol-disk3
-          mountPath: /movies2
-          subPath: ./movies
-        - name: nfs-vol-disk1
-          mountPath: /config
-          subPath: ./transmission-config
-        - name: nfs-vol-disk1
-          mountPath: /watch
-          subPath: ./transmission-watch
-        - name: nfs-vol-disk3
-          mountPath: /books
-          subPath: ./books
+        - env:
+            - name: PUID
+              value: "65534"
+            - name: PGID
+              value: "65534"
+            - name: TZ
+              value: Atlantic/Reykjavik
+            - name: TRANSMISSION_WEB_HOME
+              value: /combustion-release/
+          image: linuxserver/transmission
+          name: transmission
+          livenessProbe:
+            tcpSocket:
+              port: 9091
+            initialDelaySeconds: 120
+            periodSeconds: 15
+            timeoutSeconds: 30
+          ports:
+            - name: http
+              containerPort: 9091
+              protocol: TCP
+            - containerPort: 51413
+              protocol: TCP
+            - containerPort: 51413
+              protocol: UDP
+          resources: {}
+          volumeMounts:
+            - name: nfs-vol-disk2
+              mountPath: /downloads
+              subPath: ./downloads
+            - name: nfs-vol-disk2
+              mountPath: /tv
+              subPath: ./tv
+            - name: nfs-vol-disk2
+              mountPath: /movies
+              subPath: ./movies
+            - name: nfs-vol-disk3
+              mountPath: /tv2
+              subPath: ./tv
+            - name: nfs-vol-disk3
+              mountPath: /movies2
+              subPath: ./movies
+            - name: nfs-vol-disk1
+              mountPath: /config
+              subPath: ./transmission-config
+            - name: nfs-vol-disk1
+              mountPath: /watch
+              subPath: ./transmission-watch
+            - name: nfs-vol-disk3
+              mountPath: /books
+              subPath: ./books
       restartPolicy: Always
       volumes:
-      - name: nfs-vol-disk1
-        nfs:
-          server: 192.168.1.2
-          path: /disk1 
-      - name: nfs-vol-disk2
-        nfs:
-          server: 192.168.1.2
-          path: /disk2
-      - name: nfs-vol-disk3
-        nfs:
-          server: 192.168.1.2
-          path: /disk3
-          
+        - name: nfs-vol-disk1
+          nfs:
+            server: 192.168.1.2
+            path: /disk1
+        - name: nfs-vol-disk2
+          nfs:
+            server: 192.168.1.2
+            path: /disk2
+        - name: nfs-vol-disk3
+          nfs:
+            server: 192.168.1.2
+            path: /disk3
+
 status: {}
