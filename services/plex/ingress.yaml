@@ -23,8 +23,6 @@
 #     - plexserver.mydomain.com
 #     secretName: plexserver.mydomain.com-tls # < cert-manager will store the created certificate in this secret.
 
-
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -33,45 +31,45 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: plex.kristinn.pro
-    http:
-      paths:
-      - path: /oauth2
-        pathType: Prefix
-        backend:
-          service:
-            name: oauth2-proxy
-            port:
-              number: 4180
+    - host: plex.kristinn.pro
+      http:
+        paths:
+          - path: /oauth2
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  number: 4180
   tls:
-  - hosts:
-    - plex.kristinn.pro
-    secretName: cloudflare-tls
+    - hosts:
+        - plex.kristinn.pro
+      secretName: cloudflare-tls
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
-    nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start?rd=$http_host$request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://auth.kristinn.pro/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-signin: https://auth.kristinn.pro/oauth2/start?rd=https://$host$request_uri
     nginx.ingress.kubernetes.io/app-root: /web
   name: plex-external-auth-oauth2
   namespace: default
 spec:
   ingressClassName: nginx
   rules:
-  - host: plex.kristinn.pro
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: plexserver
-            port:
-              number: 32400
+    - host: plex.kristinn.pro
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: plexserver
+                port:
+                  number: 32400
   tls:
-  - hosts:
-    - plex.kristinn.pro
-    secretName: cloudflare-tls
+    - hosts:
+        - plex.kristinn.pro
+      secretName: cloudflare-tls

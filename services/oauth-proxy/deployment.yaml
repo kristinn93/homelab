@@ -23,36 +23,38 @@ spec:
                   app: oauth2-proxy
               topologyKey: "kubernetes.io/hostname"
       containers:
-      - args:
-        - --provider=github
-        - --upstream=file:///dev/null
-        - --http-address=0.0.0.0:4180
-        - --cookie-domain=.kristinn.pro
-        - --email-domain=*
-        - --whitelist-domain=.kristinn.pro
-        - --cookie-refresh=1h
-        - --scope=user:email
-        - --github-user="kristinn93"
-        env:
-        - name: OAUTH2_PROXY_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              name: oauthproxy-github
-              key: clientid
-        - name: OAUTH2_PROXY_CLIENT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: oauthproxy-github
-              key: clientsecret
-        - name: OAUTH2_PROXY_COOKIE_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: oauthproxy-github
-              key: cookiesecret
-        image: quay.io/oauth2-proxy/oauth2-proxy:latest
-        imagePullPolicy: Always
-        name: oauth2-proxy
-        ports:
-        - containerPort: 4180
-          protocol: TCP
-        
+        - args:
+            - --provider=github
+            - --upstream=file:///dev/null
+            - --http-address=0.0.0.0:4180
+            - --cookie-domain=.kristinn.pro
+            - --email-domain=*
+            - --whitelist-domain=.kristinn.pro
+            - --cookie-refresh=1h
+            - --scope=user:email
+            - --github-user="kristinn93"
+            - --redirect-url=https://auth.kristinn.pro/oauth2/callback
+            - --reverse-proxy=true
+            - --whitelist-domain="https://*.kristinn.pro"
+          env:
+            - name: OAUTH2_PROXY_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: oauthproxy-github
+                  key: clientid
+            - name: OAUTH2_PROXY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: oauthproxy-github
+                  key: clientsecret
+            - name: OAUTH2_PROXY_COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: oauthproxy-github
+                  key: cookiesecret
+          image: quay.io/oauth2-proxy/oauth2-proxy:latest
+          imagePullPolicy: Always
+          name: oauth2-proxy
+          ports:
+            - containerPort: 4180
+              protocol: TCP
