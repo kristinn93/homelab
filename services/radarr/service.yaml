@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: radarr
+  namespace: default
+spec:
+  selector:
+    app: radarr
+  ports:
+    - port: 80
+      targetPort: radarr
