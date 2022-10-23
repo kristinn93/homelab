@@ -36,7 +36,7 @@ spec:
               containerPort: 9117
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: jackett
             initialDelaySeconds: 150
             periodSeconds: 30
