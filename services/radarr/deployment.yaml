@@ -40,18 +40,10 @@ spec:
             - name: host-disk1
               mountPath: /config
               subPath: radarr
-            - mountPath: /downloads/disk2
-              name: nfs-vol-disk2
-              subPath: downloads
-            - mountPath: /downloads/disk3
-              name: nfs-vol-disk3
-              subPath: downloads
-            - mountPath: /movies/disk2
-              name: nfs-vol-disk2
-              subPath: movies
-            - mountPath: /movies/disk3
-              name: nfs-vol-disk3
-              subPath: movies
+            - name: nfs-vol-disk2
+              mountPath: /disk2
+            - name: nfs-vol-disk3
+              mountPath: /disk3
       volumes:
         - name: host-disk1
           hostPath:

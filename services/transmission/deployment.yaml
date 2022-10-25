@@ -45,29 +45,15 @@ spec:
           resources: {}
           volumeMounts:
             - name: nfs-vol-disk2
-              mountPath: /downloads
-              subPath: ./downloads
-            - name: nfs-vol-disk2
-              mountPath: /tv
-              subPath: ./tv
-            - name: nfs-vol-disk2
-              mountPath: /movies
-              subPath: ./movies
+              mountPath: /disk2
             - name: nfs-vol-disk3
-              mountPath: /tv2
-              subPath: ./tv
-            - name: nfs-vol-disk3
-              mountPath: /movies2
-              subPath: ./movies
+              mountPath: /disk3
             - name: nfs-vol-disk1
               mountPath: /config
               subPath: ./transmission-config
             - name: nfs-vol-disk1
               mountPath: /watch
               subPath: ./transmission-watch
-            - name: nfs-vol-disk3
-              mountPath: /books
-              subPath: ./books
       restartPolicy: Always
       volumes:
         - name: nfs-vol-disk1

@@ -16,40 +16,32 @@ spec:
         app: sickchill
     spec:
       containers:
-      - image: linuxserver/sickchill:latest
-        imagePullPolicy: Always
-        name: sickchill
-        resources: {}
-        env: 
-        - name: PGID
-          value: "65534"
-        - name: PUID
-          value: "65534"
-        ports:
-        - name: sickchill
-          containerPort: 8081
-        livenessProbe:
-          httpGet:
-            path: /
-            port: sickchill
-          initialDelaySeconds: 60
-          periodSeconds: 20
-        volumeMounts:
-        - name: host-disk1
-          mountPath: /config
-          subPath: sickchill 
-        - mountPath: /downloads/disk2
-          name: nfs-vol-disk2
-          subPath: downloads
-        - mountPath: /downloads/disk3
-          name: nfs-vol-disk3
-          subPath: downloads
-        - mountPath: /tv/disk2
-          name: nfs-vol-disk2
-          subPath: tv
-        - mountPath: /tv/disk3
-          name: nfs-vol-disk3
-          subPath: tv
+        - image: linuxserver/sickchill:latest
+          imagePullPolicy: Always
+          name: sickchill
+          resources: {}
+          env:
+            - name: PGID
+              value: "65534"
+            - name: PUID
+              value: "65534"
+          ports:
+            - name: sickchill
+              containerPort: 8081
+          livenessProbe:
+            httpGet:
+              path: /
+              port: sickchill
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          volumeMounts:
+            - name: host-disk1
+              mountPath: /config
+              subPath: sickchill
+            - name: nfs-vol-disk2
+              mountPath: /disk2
+            - name: nfs-vol-disk3
+              mountPath: /disk3
       volumes:
         - name: host-disk1
           hostPath:
