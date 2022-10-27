@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tautulli
+  namespace: default
+  labels:
+    app: tautulli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tautulli
+  template:
+    metadata:
+      labels:
+        app: tautulli
+    spec:
+      containers:
+        - image: lscr.io/linuxserver/tautulli:latest
+          imagePullPolicy: Always
+          name: tautulli
+          resources: {}
+          env:
+            - name: PGID
+              value: "65534"
+            - name: PUID
+              value: "65534"
+            - name: TZ
+              value: "Iceland"
+          ports:
+            - name: tautulli
+              containerPort: 8181
+          livenessProbe:
+            httpGet:
+              path: /arnold
+              port: tautulli
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          volumeMounts:
+            - name: host-disk1
+              mountPath: /config
+              subPath: tautulli
+      volumes:
+        - name: host-disk1
+          hostPath:
+            path: /disk1
+      restartPolicy: Always
+status: {}

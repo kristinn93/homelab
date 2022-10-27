@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: tautulli
+  namespace: default
+spec:
+  selector:
+    app: tautulli
+  ports:
+    - port: 80
+      targetPort: tautulli
