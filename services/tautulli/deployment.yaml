@@ -32,7 +32,7 @@ spec:
               containerPort: 8181
           livenessProbe:
             httpGet:
-              path: /arnold
+              path: /status
               port: tautulli
             initialDelaySeconds: 60
             periodSeconds: 20
