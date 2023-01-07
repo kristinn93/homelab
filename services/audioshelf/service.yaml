@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: audioshelf
+  namespace: default
+spec:
+  selector:
+    app: audioshelf
+  ports:
+    - port: 80
+      targetPort: audioshelf
