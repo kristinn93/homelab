@@ -6,17 +6,13 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: auth.kristinn.pro
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: oauth2-proxy
-            port:
-              number: 4180
-  tls:
-  - hosts:
-    - auth.kristinn.pro
-    secretName: cloudflare-tls
+    - host: auth.kristinn.pro
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  number: 4180

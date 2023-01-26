@@ -1,25 +1,25 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: sickchill
-  namespace: default
-  annotations:
-    nginx.ingress.kubernetes.io/auth-url: https://auth.kristinn.pro/oauth2/auth
-    nginx.ingress.kubernetes.io/auth-signin: https://auth.kristinn.pro/oauth2/start?rd=https://$host$request_uri
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - sickchill.kristinn.pro
-      secretName: cloudflare-tls
-  rules:
-    - host: sickchill.kristinn.pro
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: sickchill
-                port:
-                  number: 80
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: sickchill
+#   namespace: default
+#   annotations:
+#     nginx.ingress.kubernetes.io/auth-url: https://auth.kristinn.pro/oauth2/auth
+#     nginx.ingress.kubernetes.io/auth-signin: https://auth.kristinn.pro/oauth2/start?rd=https://$host$request_uri
+# spec:
+#   ingressClassName: nginx
+#   tls:
+#     - hosts:
+#         - sickchill.kristinn.pro
+#       secretName: cloudflare-tls
+#   rules:
+#     - host: sickchill.kristinn.pro
+#       http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: sickchill
+#                 port:
+#                   number: 80

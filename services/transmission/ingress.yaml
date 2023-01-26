@@ -1,34 +1,10 @@
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: oauth2-proxy
-#   namespace: default
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#   - host: transmission.kristinn.pro
-#     http:
-#       paths:
-#       - path: /oauth2
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: oauth2-proxy
-#             port:
-#               number: 4180
-#   tls:
-#   - hosts:
-#     - transmission.kristinn.pro
-#     secretName: cloudflare-tls
-
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/auth-url: https://auth.kristinn.pro/oauth2/auth
     nginx.ingress.kubernetes.io/auth-signin: https://auth.kristinn.pro/oauth2/start?rd=https://$host$request_uri
-  name: external-auth-oauth2
+  name: transmission
   namespace: default
 spec:
   ingressClassName: nginx
@@ -43,7 +19,3 @@ spec:
                 name: transmission
                 port:
                   number: 9091
-  tls:
-    - hosts:
-        - transmission.kristinn.pro
-      secretName: cloudflare-tls

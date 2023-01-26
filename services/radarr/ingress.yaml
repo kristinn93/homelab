@@ -8,10 +8,6 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: https://auth.kristinn.pro/oauth2/start?rd=https://$host$request_uri
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - radarr.kristinn.pro
-      secretName: cloudflare-tls
   rules:
     - host: radarr.kristinn.pro
       http:
