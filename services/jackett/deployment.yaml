@@ -18,7 +18,7 @@ spec:
       containers:
         - image: lscr.io/linuxserver/jackett:latest
           imagePullPolicy: Always
-          name: sickchill
+          name: jackett
           resources: {}
           env:
             - name: PGID
@@ -45,29 +45,9 @@ spec:
             - name: host-disk1
               mountPath: /config
               subPath: jackett
-          # - mountPath: /downloads/disk2
-          #   name: nfs-vol-disk2
-          #   subPath: downloads
-          # - mountPath: /downloads/disk3
-          #   name: nfs-vol-disk3
-          #   subPath: downloads
-          # - mountPath: /tv/disk2
-          #   name: nfs-vol-disk2
-          #   subPath: tv
-          # - mountPath: /tv/disk3
-          #   name: nfs-vol-disk3
-          #   subPath: tv
       volumes:
         - name: host-disk1
           hostPath:
             path: /disk1
-        # - name: nfs-vol-disk2
-        #   nfs:
-        #     server: 192.168.1.2
-        #     path: /disk2
-        # - name: nfs-vol-disk3
-        #   nfs:
-        #     server: 192.168.1.2
-        #     path: /disk3
       restartPolicy: Always
 status: {}
