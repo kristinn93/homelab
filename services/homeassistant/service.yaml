@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: homeassistant
+spec:
+  ports:
+    - name: homeassistant
+      port: 8123
+      targetPort: 8123
+      nodePort: 0
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: homeassistant
+subsets:
+  - addresses:
+      - ip: 192.168.1.234
+    ports:
+      - port: 8123
+        name: homeassistant
