@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: heimdall
+  namespace: default
+spec:
+  selector:
+    app: heimdall
+  ports:
+    - port: 80
+      targetPort: heimdall

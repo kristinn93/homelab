@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unpackerr
+  namespace: default
+  labels:
+    app: unpackerr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unpackerr
+  template:
+    metadata:
+      labels:
+        app: unpackerr
+    spec:
+      containers:
+        - image: golift/unpackerr:latest
+          imagePullPolicy: Always
+          name: unpackerr
+          resources: {}
+          env:
+            - name: UN_FILE_MODE
+              value: "775"
+            - name: UN_DIR_MODE
+              value: "775"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: unpackerr
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          volumeMounts:
+            - name: host-disk1
+              mountPath: /config
+              subPath: unpackerr
+            - name: nfs-vol-disk2
+              mountPath: /disk2
+            - name: nfs-vol-disk3
+              mountPath: /disk3
+      volumes:
+        - name: host-disk1
+          hostPath:
+            path: /disk1
+        - name: nfs-vol-disk2
+          nfs:
+            server: 192.168.1.2
+            path: /disk2
+        - name: nfs-vol-disk3
+          nfs:
+            server: 192.168.1.2
+            path: /disk3
+      restartPolicy: Always
+status: {}

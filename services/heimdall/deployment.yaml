@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heimdall
+  namespace: default
+  labels:
+    app: heimdall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heimdall
+  template:
+    metadata:
+      labels:
+        app: heimdall
+    spec:
+      containers:
+        - image: lscr.io/linuxserver/heimdall:latest
+          imagePullPolicy: Always
+          name: heimdall
+          resources: {}
+          env:
+            - name: PGID
+              value: "65534"
+            - name: PUID
+              value: "65534"
+            - name: TZ
+              value: "Iceland"
+          ports:
+            - name: heimdall
+              containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: heimdall
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          volumeMounts:
+            - name: host-disk1
+              mountPath: /config
+              subPath: heimdall
+      volumes:
+        - name: host-disk1
+          hostPath:
+            path: /disk1
+      restartPolicy: Always
+status: {}
