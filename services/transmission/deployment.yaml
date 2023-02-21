@@ -24,8 +24,6 @@ spec:
               value: "65534"
             - name: TZ
               value: Atlantic/Reykjavik
-            - name: TRANSMISSION_WEB_HOME
-              value: /combustion-release/
           image: linuxserver/transmission
           name: transmission
           livenessProbe:

@@ -84,3 +84,20 @@ and decided to test hostpath just to be able to use this, seems like it's workin
 
 Sickchill setup seems nice, looked at this template to create manifests https://github.com/aruhier/ansible-role-kubernetes-sickchill
 
+
+
+
+Looking into this for monitoring: https://rpi4cluster.com/monitoring/k3s-prometheus/
+
+Decided on setting up just grafana and installing prometheus node exporter on ubuntu
+
+
+InfluxDB:
+kubectl create secret generic influxdb-creds \
+  --from-literal=INFLUXDB_DATABASE=something \
+  --from-literal=INFLUXDB_USERNAME=something \
+  --from-literal=INFLUXDB_PASSWORD=something \
+  --from-literal=INFLUXDB_HOST=something
+
+
+

@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bazarr
+  namespace: default
+spec:
+  selector:
+    app: bazarr
+  ports:
+    - port: 80
+      targetPort: bazarr

@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus
+spec:
+  ports:
+    - name: prometheus
+      port: 80
+      targetPort: 9090
+      nodePort: 0
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: prometheus
+subsets:
+  - addresses:
+      - ip: 192.168.1.2
+    ports:
+      - port: 9090
+        name: prometheus
