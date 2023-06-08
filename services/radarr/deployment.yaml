@@ -40,18 +40,12 @@ spec:
             - name: host-disk1
               mountPath: /config
               subPath: radarr
-            - name: nfs-vol-disk2
-              mountPath: /disk2
             - name: nfs-vol-disk3
               mountPath: /disk3
       volumes:
         - name: host-disk1
           hostPath:
             path: /disk1
-        - name: nfs-vol-disk2
-          nfs:
-            server: 192.168.1.2
-            path: /disk2
         - name: nfs-vol-disk3
           nfs:
             server: 192.168.1.2

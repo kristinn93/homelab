@@ -42,8 +42,6 @@ spec:
               protocol: UDP
           resources: {}
           volumeMounts:
-            - name: nfs-vol-disk2
-              mountPath: /disk2
             - name: nfs-vol-disk3
               mountPath: /disk3
             - name: nfs-vol-disk1
@@ -58,10 +56,6 @@ spec:
           nfs:
             server: 192.168.1.2
             path: /disk1
-        - name: nfs-vol-disk2
-          nfs:
-            server: 192.168.1.2
-            path: /disk2
         - name: nfs-vol-disk3
           nfs:
             server: 192.168.1.2
