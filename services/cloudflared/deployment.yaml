@@ -21,7 +21,7 @@ spec:
         kubernetes.io/arch: "amd64"
       containers:
         - name: cloudflared
-          image: cloudflare/cloudflared:2023.1.0
+          image: cloudflare/cloudflared:latest
           args:
             - tunnel
             # Points cloudflared to the config file, which configures what
