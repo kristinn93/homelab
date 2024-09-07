@@ -2,15 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: pihole
-  name: pihole
+    app: adguard
+  name: adguard
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: pihole
+      app: adguard
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -19,25 +19,18 @@ spec:
   template:
     metadata:
       labels:
-        app: pihole
+        app: adguard
     spec:
       containers:
         - env:
             - name: ServerIP
               value: 192.168.1.2
-            - name: WEBPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: pihole-webpassword
-            - name: TZ
-              value: Atlantic/Reykjavik
-          image: pihole/pihole:latest
+          image: adguard/adguardhome:latest
           imagePullPolicy: Always
-          name: pihole
+          name: adguard
           ports:
             - containerPort: 80
-              name: pihole-http
+              name: adguard-http
               protocol: TCP
             - containerPort: 53
               name: dns
@@ -46,21 +39,21 @@ spec:
               name: dns-udp
               protocol: UDP
             - containerPort: 443
-              name: pihole-ssl
+              name: adguard-ssl
               protocol: TCP
-            - containerPort: 67
-              name: client-udp
-              protocol: UDP
+            - containerPort: 3000
+              name: adguard-setup
+              protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
             - name: host-disk1
-              mountPath: /etc/pihole
-              subPath: pihole
-            - mountPath: /etc/dnsmasq.d/02-custom.conf
-              name: host-disk1
-              subPath: pihole/dnsmasq
+              mountPath: /opt/adguardhome/work
+              subPath: adguard/work
+            - name: host-disk1
+              mountPath: /opt/adguardhome/conf
+              subPath: adguard/conf
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
