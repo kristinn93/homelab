@@ -1,0 +1,50 @@
+# kubectl expose deploy ingress-nginx-controller --port 443 --type LoadBalancer -n ingress-nginx
+# the use kubectl to edit svc and see the port config
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.io/ip-allocated-from-pool: default
+  creationTimestamp: "2024-12-26T12:53:33Z"
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.11.3
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+  resourceVersion: "48590"
+  uid: 07649672-c22e-4feb-8434-9914f60ff1b5
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.43.38.16
+  clusterIPs:
+    - 10.43.38.16
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - nodePort: 31845
+      port: 443
+      protocol: TCP
+      targetPort: 443
+      name: https
+    - nodePort: 31682
+      port: 80
+      protocol: TCP
+      targetPort: 80
+      name: http
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+      - ip: 192.168.1.80
+        ipMode: VIP
