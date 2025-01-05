@@ -42,23 +42,25 @@ spec:
               protocol: UDP
           resources: {}
           volumeMounts:
-            - name: nfs-vol-disk3
+            - name: hostpath-vol-disk3
               mountPath: /disk3
-            - name: nfs-vol-disk1
+            - name: hostpath-vol-disk1-config
               mountPath: /config
-              subPath: ./transmission-config
-            - name: nfs-vol-disk1
+            - name: hostpath-vol-disk1-watch
               mountPath: /watch
-              subPath: ./transmission-watch
       restartPolicy: Always
       volumes:
-        - name: nfs-vol-disk1
-          nfs:
-            server: 192.168.1.2
-            path: /disk1
-        - name: nfs-vol-disk3
-          nfs:
-            server: 192.168.1.2
+        - name: hostpath-vol-disk1-config
+          hostPath:
+            path: /disk1/transmission-config
+            type: DirectoryOrCreate
+        - name: hostpath-vol-disk1-watch
+          hostPath:
+            path: /disk1/transmission-watch
+            type: DirectoryOrCreate
+        - name: hostpath-vol-disk3
+          hostPath:
             path: /disk3
+            type: DirectoryOrCreate
 
 status: {}
