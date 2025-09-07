@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: homeassistant
+  name: homeassistant
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: homeassistant
+  template:
+    metadata:
+      labels:
+        app: homeassistant
+    spec:
+      hostNetwork: true
+      containers:
+        - name: homeassistant
+          image: homeassistant/home-assistant
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+                - SYS_ADMIN
+                - NET_BROADCAST
+          ports:
+            - name: http
+              containerPort: 8123
+              protocol: TCP
+          resources: {}
+          livenessProbe:
+            tcpSocket:
+              port: 8123
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 8123
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 8123
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: hostpath-vol-disk1-config
+              mountPath: /config
+            - name: hostpath-vol-disk1-data
+              mountPath: /data
+      restartPolicy: Always
+      volumes:
+        - name: hostpath-vol-disk1-config
+          hostPath:
+            path: /disk1/homeassistant/config
+            type: DirectoryOrCreate
+        - name: hostpath-vol-disk1-data
+          hostPath:
+            path: /disk1/homeassistant/data
+            type: DirectoryOrCreate
